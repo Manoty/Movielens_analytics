@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: fact_ratings
+    description: Fact table containing user movie ratings
+    columns:
+      - name: movie_id
+        tests:
+          - not_null
+
+      - name: user_id
+        tests:
+          - not_null
