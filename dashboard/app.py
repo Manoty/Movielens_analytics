@@ -1,16 +1,13 @@
 import streamlit as st
 import duckdb
-import pandas as pd
 import plotly.express as px
 
 st.title("MovieLens Analytics Dashboard")
 
-# Connect to your DuckDB warehouse
-con = duckdb.connect("movielens_analytics.duckdb")
+# connect to dbt DuckDB database
+con = duckdb.connect("dev.duckdb")
 
-# -----------------------------
 # Top Rated Movies
-# -----------------------------
 query_top_movies = """
 SELECT
     d.title,
@@ -34,11 +31,10 @@ fig = px.bar(
     orientation="h",
     title="Top Rated Movies"
 )
+
 st.plotly_chart(fig)
 
-# -----------------------------
 # Genre Performance
-# -----------------------------
 query_genres = """
 SELECT
     genre,
@@ -56,11 +52,10 @@ fig2 = px.bar(
     y="avg_rating",
     title="Average Rating by Genre"
 )
+
 st.plotly_chart(fig2)
 
-# -----------------------------
 # Most Active Users
-# -----------------------------
 query_users = """
 SELECT
     user_id,
@@ -78,4 +73,5 @@ fig3 = px.bar(
     y="total_ratings",
     title="Most Active Users"
 )
+
 st.plotly_chart(fig3)
