@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_ratings
+    description: Cleaned user ratings
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: movie_id
+        tests:
+          - not_null
+
+      - name: rating
+        tests:
+          - not_null
