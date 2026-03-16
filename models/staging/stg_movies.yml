@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: stg_movies
+    description: Cleaned movie metadata from MovieLens dataset
+    columns:
+      - name: movie_id
+        description: Primary identifier for movies
+        tests:
+          - not_null
+          - unique
+
+      - name: title
+        tests:
+          - not_null
