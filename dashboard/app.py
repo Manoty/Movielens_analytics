@@ -18,6 +18,27 @@ st.title("MovieLens Analytics Dashboard")
 # -------------------------
 con = duckdb.connect("dev.duckdb")
 
+# -------------------------
+# KPI CARDS
+# -------------------------
+
+kpi_query = """
+SELECT
+    COUNT(DISTINCT movie_id) AS total_movies,
+    COUNT(*) AS total_ratings,
+    COUNT(DISTINCT user_id) AS total_users,
+    AVG(rating) AS avg_rating
+FROM fact_ratings
+"""
+
+kpi_df = con.execute(kpi_query).fetchdf()
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("🎬 Total Movies", kpi_df["total_movies"][0])
+col2.metric("⭐ Total Ratings", kpi_df["total_ratings"][0])
+col3.metric("👤 Total Users", kpi_df["total_users"][0])
+col4.metric("📊 Avg Rating", round(kpi_df["avg_rating"][0], 2))
 
 # -------------------------
 # GENRE FILTER
