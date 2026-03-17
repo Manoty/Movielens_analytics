@@ -89,10 +89,30 @@ a, a:hover {
 
 /* ── Selectbox / dropdowns ── */
 [data-testid="stSelectbox"] > div > div {
-    background-color: #1B1B1B;
-    color: #FFFFFF;
+    background-color: #2B2B2B;
+    color: #FFFFFF !important;
     border: 1px solid #E50914;
     border-radius: 6px;
+}
+
+/* ── Dropdown text visibility ── */
+[data-testid="stSelectbox"] span {
+    color: #FFFFFF !important;
+}
+
+/* ── Dropdown open list ── */
+[data-testid="stSelectbox"] ul {
+    background-color: #2B2B2B;
+    color: #FFFFFF !important;
+}
+
+[data-testid="stSelectbox"] li {
+    color: #FFFFFF !important;
+}
+
+[data-testid="stSelectbox"] li:hover {
+    background-color: #E50914 !important;
+    color: #FFFFFF !important;
 }
 
 </style>
@@ -513,7 +533,7 @@ if selected_movie:
 st.markdown("""
 ---
 <div style="text-align: center; color: #555555; font-size: 13px; padding: 20px 0;">
-    Built by <span style="color: #E50914; font-weight: 600;">Your Name</span> &nbsp;|&nbsp; 
+    Built by <span style="color: #E50914; font-weight: 600;">Kev</span> &nbsp;|&nbsp; 
     MovieLens Analytics Dashboard &nbsp;|&nbsp; Powered by Streamlit & DuckDB
 </div>
 """, unsafe_allow_html=True)        
