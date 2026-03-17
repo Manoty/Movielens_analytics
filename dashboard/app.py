@@ -12,17 +12,7 @@ st.set_page_config(
 
 st.title("MovieLens Analytics Dashboard")
 
-st.markdown(
-    """
-    <style>
-    .main {background-color: #0D0D0D;}
-    .stSidebar {background-color: #121212;}
-    .stMetric {background-color: #1a1a1a; border-radius: 8px; padding: 10px;}
-    h1, h2, h3, h4 {color: #FAFAFA;}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+
 
 
 # -------------------------
@@ -449,3 +439,17 @@ if selected_movie:
     df_similar = con.execute(similar_movies_query, [selected_movie]).fetchdf()
 
     st.dataframe(df_similar)
+    
+    
+st.markdown(
+    """
+    <style>
+    .main {background-color: #0D0D0D;}
+    .stSidebar {background-color: #121212;}
+    .stMetric {background-color: #1a1a1a; border-radius: 8px; padding: 10px;}
+    h1, h2, h3, h4 {color: #FAFAFA;}
+    </style>
+    """,
+    unsafe_allow_html=True
+)    
+    
