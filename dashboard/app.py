@@ -12,6 +12,18 @@ st.set_page_config(
 
 st.title("MovieLens Analytics Dashboard")
 
+st.markdown(
+    """
+    <style>
+    .main {background-color: #0D0D0D;}
+    .stSidebar {background-color: #121212;}
+    .stMetric {background-color: #1a1a1a; border-radius: 8px; padding: 10px;}
+    h1, h2, h3, h4 {color: #FAFAFA;}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # -------------------------
 # DB CONNECTION
@@ -85,7 +97,8 @@ fig1 = px.bar(
     x="avg_rating",
     y="title",
     orientation="h",
-    title="Top Rated Movies"
+    title="Top Rated Movies",
+    template="plotly_dark"
 )
 
 st.plotly_chart(fig1, use_container_width=True)
@@ -114,7 +127,8 @@ fig2 = px.bar(
     df_genres,
     x="genre",
     y="avg_rating",
-    title="Average Rating by Genre"
+    title="Average Rating by Genre",
+    template="plotly_dark"
 )
 
 st.plotly_chart(fig2, use_container_width=True)
@@ -143,7 +157,8 @@ fig3 = px.bar(
     df_users,
     x="user_id",
     y="total_ratings",
-    title="Most Active Users"
+    title="Most Active Users",
+    template="plotly_dark"
 )
 
 st.plotly_chart(fig3, use_container_width=True)
@@ -172,7 +187,8 @@ fig4 = px.bar(
     df_rating_dist,
     x="rating",
     y="total",
-    title="Distribution of Movie Ratings"
+    title="Distribution of Movie Ratings",
+    template="plotly_dark"
 )
 
 st.plotly_chart(fig4, use_container_width=True)
@@ -201,7 +217,8 @@ fig5 = px.line(
     df_ratings_time,
     x="rating_date",
     y="total_ratings",
-    title="Ratings Activity Over Time"
+    title="Ratings Activity Over Time",
+    template="plotly_dark"
 )
 
 st.plotly_chart(fig5, use_container_width=True)
@@ -230,7 +247,8 @@ fig6 = px.bar(
     df_genre_popularity,
     x="genre",
     y="total_ratings",
-    title="Most Popular Genres"
+    title="Most Popular Genres",
+    template="plotly_dark"
 )
 
 st.plotly_chart(fig6, use_container_width=True)
@@ -283,7 +301,8 @@ fig7 = px.bar(
     x="avg_rating",
     y="title",
     orientation="h",
-    title=f"Top Movies - {selected_genre}"
+    title=f"Top Movies - {selected_genre}",
+    template="plotly_dark"
 )
 
 st.plotly_chart(fig7, use_container_width=True)
@@ -364,7 +383,8 @@ if selected_movie:
             df_rating_dist,
             x="rating",
             y="total",
-            title="Rating Distribution"
+            title="Rating Distribution",
+            template="plotly_dark"
         )
         st.plotly_chart(fig_movie_dist, use_container_width=True)
     else:
@@ -392,7 +412,8 @@ if selected_movie:
             df_genre,
             names="genre",
             values="total",
-            title="Genre Breakdown"
+            title="Genre Breakdown",
+            template="plotly_dark"
         )
         st.plotly_chart(fig_genre, use_container_width=True)
 
