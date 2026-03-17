@@ -12,10 +12,12 @@ st.set_page_config(
 
 st.title("MovieLens Analytics Dashboard")
 
+
 # -------------------------
 # DB CONNECTION
 # -------------------------
 con = duckdb.connect("dev.duckdb")
+
 
 # -------------------------
 # GENRE FILTER
