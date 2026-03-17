@@ -10,10 +10,95 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Movielens Analytics Dashboard")
+# -------------------------
+# NETFLIX-STYLE CSS  (moved to top so it loads before any UI renders)
+# -------------------------
+st.markdown("""
+<style>
 
+/* ── Page background ── */
+[data-testid="stAppViewContainer"] {
+    background-color: #141414;
+    color: #FFFFFF;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+}
 
+/* ── Top header bar ── */
+[data-testid="stHeader"] {
+    background-color: #141414;
+}
 
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {
+    background-color: #1B1B1B;
+    color: #FFFFFF;
+}
+
+[data-testid="stSidebar"] * {
+    color: #FFFFFF !important;
+}
+
+/* ── Headings ── */
+h1, h2, h3, h4, h5, h6 {
+    color: #FFFFFF !important;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px #B81D24;
+}
+
+/* ── KPI metric cards ── */
+[data-testid="stMetric"] {
+    background-color: rgba(229, 9, 20, 0.15);
+    border-radius: 8px;
+    padding: 10px;
+    color: #FFFFFF;
+}
+
+[data-testid="stMetric"] * {
+    color: #FFFFFF !important;
+}
+
+/* ── Metric value (the big number) ── */
+[data-testid="stMetricValue"] {
+    color: #E50914 !important;
+    font-weight: 700;
+}
+
+/* ── Buttons ── */
+[data-testid="stButton"] > button {
+    background-color: #E50914;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+[data-testid="stButton"] > button:hover {
+    background-color: #B81D24;
+    color: #FFFFFF;
+}
+
+/* ── General text ── */
+p, span, div, label {
+    color: #FFFFFF;
+}
+
+/* ── Links ── */
+a, a:hover {
+    color: #E50914 !important;
+}
+
+/* ── Selectbox / dropdowns ── */
+[data-testid="stSelectbox"] > div > div {
+    background-color: #1B1B1B;
+    color: #FFFFFF;
+    border: 1px solid #E50914;
+    border-radius: 6px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.title("🎬 Movielens Analytics Dashboard")
 
 # -------------------------
 # DB CONNECTION
@@ -23,7 +108,6 @@ con = duckdb.connect("dev.duckdb")
 # -------------------------
 # KPI CARDS
 # -------------------------
-
 kpi_query = """
 SELECT
     COUNT(DISTINCT movie_id) AS total_movies,
@@ -43,7 +127,7 @@ col3.metric("👤 Total Users", kpi_df["total_users"][0])
 col4.metric("📊 Avg Rating", round(kpi_df["avg_rating"][0], 2))
 
 # -------------------------
-# GENRE FILTER
+# GENRE FILTER (sidebar)
 # -------------------------
 genre_list_query = """
 SELECT DISTINCT genre
@@ -62,10 +146,10 @@ selected_genre = st.sidebar.selectbox(
 # TOP RATED MOVIES
 # -------------------------
 st.subheader("Top Rated Movies")
-
 st.markdown(
-    "_Shows the highest-rated movies based on average user ratings, filtered to include only movies with a significant number of ratings to ensure reliability._"
+    "_The highest-rated movies based on average user ratings. Only movies with more than 50 ratings are included to ensure statistical reliability._"
 )
+
 query_top_movies = """
 SELECT
     d.title,
@@ -97,9 +181,8 @@ st.plotly_chart(fig1, use_container_width=True)
 # GENRE PERFORMANCE
 # -------------------------
 st.subheader("Average Rating by Genre")
-
 st.markdown(
-    "_Displays how different genres perform in terms of average user ratings, helping identify which types of content are most appreciated._"
+    "_How different genres perform in terms of average user ratings — useful for spotting which content types are most appreciated._"
 )
 
 query_genres = """
@@ -127,9 +210,8 @@ st.plotly_chart(fig2, use_container_width=True)
 # MOST ACTIVE USERS
 # -------------------------
 st.subheader("Most Active Users")
-
 st.markdown(
-    "_Shows the highest-rated movies based on average user ratings, filtered to include only movies with a significant number of ratings to ensure reliability._"
+    "_The top 10 users who have submitted the most ratings on the platform._"
 )
 
 query_users = """
@@ -157,9 +239,8 @@ st.plotly_chart(fig3, use_container_width=True)
 # RATING DISTRIBUTION
 # -------------------------
 st.subheader("Rating Distribution")
-
 st.markdown(
-    "_Shows the highest-rated movies based on average user ratings, filtered to include only movies with a significant number of ratings to ensure reliability._"
+    "_Breakdown of how ratings are spread across the 0.5–5 star scale, showing the overall rating behaviour of users._"
 )
 
 query_rating_dist = """
@@ -187,9 +268,8 @@ st.plotly_chart(fig4, use_container_width=True)
 # RATINGS OVER TIME
 # -------------------------
 st.subheader("Ratings Over Time")
-
 st.markdown(
-    "_Shows the highest-rated movies based on average user ratings, filtered to include only movies with a significant number of ratings to ensure reliability._"
+    "_Volume of ratings submitted per day, revealing platform activity trends and peak engagement periods._"
 )
 
 query_ratings_time = """
@@ -217,9 +297,8 @@ st.plotly_chart(fig5, use_container_width=True)
 # MOST POPULAR GENRES
 # -------------------------
 st.subheader("Most Popular Genres")
-
 st.markdown(
-    "_Shows the highest-rated movies based on average user ratings, filtered to include only movies with a significant number of ratings to ensure reliability._"
+    "_Genres ranked by total number of ratings received — a measure of audience reach rather than quality._"
 )
 
 query_genre_popularity = """
@@ -244,12 +323,11 @@ fig6 = px.bar(
 st.plotly_chart(fig6, use_container_width=True)
 
 # -------------------------
-# TOP MOVIES BY GENRE
+# TOP MOVIES BY GENRE  (uses sidebar genre filter)
 # -------------------------
 st.subheader("Top Movies by Selected Genre")
-
 st.markdown(
-    "_Shows the highest-rated movies based on average user ratings, filtered to include only movies with a significant number of ratings to ensure reliability._"
+    "_Top-rated movies filtered by your selected genre from the sidebar. Switch genre to explore different categories._"
 )
 
 if selected_genre == "All":
@@ -266,8 +344,10 @@ if selected_genre == "All":
     ORDER BY avg_rating DESC
     LIMIT 15
     """
+    df_genre_movies = con.execute(query_genre_movies).fetchdf()
 else:
-    query_genre_movies = f"""
+    # ✅ Fixed: parameterized query to prevent SQL injection
+    query_genre_movies = """
     SELECT
         d.title,
         AVG(f.rating) AS avg_rating,
@@ -277,14 +357,13 @@ else:
         ON f.movie_id = d.movie_id
     JOIN int_movie_genres g
         ON d.movie_id = g.movie_id
-    WHERE g.genre = '{selected_genre}'
+    WHERE g.genre = ?
     GROUP BY d.title
     HAVING COUNT(*) > 20
     ORDER BY avg_rating DESC
     LIMIT 15
     """
-
-df_genre_movies = con.execute(query_genre_movies).fetchdf()
+    df_genre_movies = con.execute(query_genre_movies, [selected_genre]).fetchdf()
 
 fig7 = px.bar(
     df_genre_movies,
@@ -298,17 +377,13 @@ fig7 = px.bar(
 st.plotly_chart(fig7, use_container_width=True)
 
 # -------------------------
+# MOVIE EXPLORER
 # -------------------------
-# NETFLIX-STYLE MOVIE EXPLORER
-# -------------------------
-
 st.subheader("🎬 Movie Explorer")
-
 st.markdown(
-    "_Shows the highest-rated movies based on average user ratings, filtered to include only movies with a significant number of ratings to ensure reliability._"
+    "_Search for any movie to see its average rating, total ratings, genre breakdown, and a list of similar titles._"
 )
 
-# Get movie list
 movie_list_query = """
 SELECT DISTINCT title
 FROM dim_movies
@@ -318,17 +393,11 @@ LIMIT 1000
 
 movie_list = con.execute(movie_list_query).fetchdf()["title"].tolist()
 
-selected_movie = st.selectbox(
-    "Select a movie",
-    movie_list
-)
-
-# -------------------------
-# MOVIE DETAILS
-# -------------------------
+selected_movie = st.selectbox("Select a movie", movie_list)
 
 if selected_movie:
 
+    # ── Movie Details ──
     movie_details_query = """
     SELECT
         d.title,
@@ -346,14 +415,15 @@ if selected_movie:
     col1, col2, col3 = st.columns(3)
 
     if not df_details.empty:
+        avg = df_details["avg_rating"][0]
+        # ✅ Fixed: safe None check before rounding
+        avg_display = round(float(avg), 2) if avg is not None else "N/A"
+
         col1.metric("🎬 Movie", df_details["title"][0])
-        col2.metric("⭐ Avg Rating", round(df_details["avg_rating"][0], 2) if df_details["avg_rating"][0] else "N/A")
+        col2.metric("⭐ Avg Rating", avg_display)
         col3.metric("🔥 Total Ratings", int(df_details["total_ratings"][0]))
 
-# -------------------------
-# RATING DISTRIBUTION
-# -------------------------
-
+    # ── Rating Distribution ──
     rating_dist_query = """
     SELECT
         rating,
@@ -366,24 +436,21 @@ if selected_movie:
     ORDER BY rating
     """
 
-    df_rating_dist = con.execute(rating_dist_query, [selected_movie]).fetchdf()
+    df_movie_rating_dist = con.execute(rating_dist_query, [selected_movie]).fetchdf()
 
-    if not df_rating_dist.empty:
+    if not df_movie_rating_dist.empty:
         fig_movie_dist = px.bar(
-            df_rating_dist,
+            df_movie_rating_dist,
             x="rating",
             y="total",
-            title="Rating Distribution",
+            title=f"Rating Distribution — {selected_movie}",
             template="plotly_dark"
         )
         st.plotly_chart(fig_movie_dist, use_container_width=True)
     else:
         st.info("No rating data available for this movie.")
 
-# -------------------------
-# GENRE BREAKDOWN
-# -------------------------
-
+    # ── Genre Breakdown ──
     genre_query = """
     SELECT
         g.genre,
@@ -402,15 +469,12 @@ if selected_movie:
             df_genre,
             names="genre",
             values="total",
-            title="Genre Breakdown",
+            title=f"Genre Breakdown — {selected_movie}",
             template="plotly_dark"
         )
         st.plotly_chart(fig_genre, use_container_width=True)
 
-# -------------------------
-# SIMILAR MOVIES
-# -------------------------
-
+    # ── Similar Movies ──
     st.subheader("🔥 Similar Popular Movies")
 
     similar_movies_query = """
@@ -430,57 +494,26 @@ if selected_movie:
             ON g2.movie_id = d2.movie_id
         WHERE d2.title = ?
     )
+    AND d.title != ?
     GROUP BY d.title
     HAVING COUNT(*) > 50
     ORDER BY avg_rating DESC
     LIMIT 10
     """
 
-    df_similar = con.execute(similar_movies_query, [selected_movie]).fetchdf()
+    # ✅ Fixed: pass selected_movie twice (used in two ? placeholders)
+    df_similar = con.execute(similar_movies_query, [selected_movie, selected_movie]).fetchdf()
 
-    st.dataframe(df_similar)
-    
-    
-st.markdown(
-    """
-    <style>
-    /* Page background */
-    .main {
-        background-color: #0D0D0D;
-        color: #FAFAFA;
-        font-family: sans-serif;
-    }
-
-    /* Sidebar background */
-    .stSidebar {
-        background-color: #121212;
-    }
-
-    /* Headers */
-    h1, h2, h3, h4, h5, h6 {
-        color: #FAFAFA;
-    }
-
-    /* KPI cards and metrics */
-    .stMetric {
-        background-color: rgba(29, 185, 84, 0.1); /* subtle green overlay */
-        border-radius: 8px;
-        padding: 10px;
-        color: #FAFAFA;
-    }
-
-    /* Buttons and highlights (simulate primaryColor) */
-    .stButton>button {
-        background-color: #1DB954;
-        color: #FFFFFF;
-        border-radius: 8px;
-    }
-
-    /* Streamlit charts (optional: text inside charts) */
-    .element-container {
-        color: #FAFAFA;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+    if not df_similar.empty:
+        st.dataframe(df_similar)
+    else:
+        st.info("No similar movies found.")
+        
+        
+st.markdown("""
+---
+<div style="text-align: center; color: #555555; font-size: 13px; padding: 20px 0;">
+    Built by <span style="color: #E50914; font-weight: 600;">Your Name</span> &nbsp;|&nbsp; 
+    MovieLens Analytics Dashboard &nbsp;|&nbsp; Powered by Streamlit & DuckDB
+</div>
+""", unsafe_allow_html=True)        
