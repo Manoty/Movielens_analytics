@@ -446,7 +446,10 @@ st.markdown(
     <style>
     .main {background-color: #0D0D0D;}
     .stSidebar {background-color: #121212;}
-    h1, h2, h3, h4 {color: #FAFAFA;}
+    .stMetric {
+        border-radius: 8px;
+        padding: 10px;
+        background-color: rgba(255,255,255,0.05); /* slight translucent overlay */}    
     </style>
     """,
     unsafe_allow_html=True
