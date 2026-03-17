@@ -10,7 +10,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("MovieLens Analytics Dashboard")
+st.title("Movielens Analytics Dashboard")
 
 
 
@@ -444,14 +444,43 @@ if selected_movie:
 st.markdown(
     """
     <style>
-    .main {background-color: #0D0D0D;}
-    .stSidebar {background-color: #121212;}
+    /* Page background */
+    .main {
+        background-color: #0D0D0D;
+        color: #FAFAFA;
+        font-family: sans-serif;
+    }
+
+    /* Sidebar background */
+    .stSidebar {
+        background-color: #121212;
+    }
+
+    /* Headers */
+    h1, h2, h3, h4, h5, h6 {
+        color: #FAFAFA;
+    }
+
+    /* KPI cards and metrics */
     .stMetric {
+        background-color: rgba(29, 185, 84, 0.1); /* subtle green overlay */
         border-radius: 8px;
         padding: 10px;
-        background-color: rgba(255,255,255,0.05); /* slight translucent overlay */}    
+        color: #FAFAFA;
+    }
+
+    /* Buttons and highlights (simulate primaryColor) */
+    .stButton>button {
+        background-color: #1DB954;
+        color: #FFFFFF;
+        border-radius: 8px;
+    }
+
+    /* Streamlit charts (optional: text inside charts) */
+    .element-container {
+        color: #FAFAFA;
+    }
     </style>
     """,
     unsafe_allow_html=True
-)    
-    
+)
