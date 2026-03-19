@@ -2,7 +2,10 @@ import streamlit as st
 import duckdb
 import subprocess
 import plotly.express as px
+import os
 
+if not os.path.exists("dev.duckdb"):
+    subprocess.run(["dbt", "run"], cwd="power_plants_analytics")
 
 # -------------------------
 # PAGE CONFIG
