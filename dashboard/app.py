@@ -1,6 +1,8 @@
 import streamlit as st
 import duckdb
+import subprocess
 import plotly.express as px
+
 
 # -------------------------
 # PAGE CONFIG
@@ -88,33 +90,33 @@ a, a:hover {
 }
 
 /* ── Selectbox / dropdowns ── */
-[data-testid="stSelectbox"] > div > div {
-    background-color: #2B2B2B;
-    color: #FFFFFF !important;
-    border: 1px solid #E50914;
-    border-radius: 6px;
-}
-
-/* ── Dropdown text visibility ── */
-[data-testid="stSelectbox"] span {
+div[data-baseweb="select"] > div {
+    background-color: #2B2B2B !important;
+    border: 1px solid #E50914 !important;
+    border-radius: 6px !important;
     color: #FFFFFF !important;
 }
 
-/* ── Dropdown open list ── */
-[data-testid="stSelectbox"] ul {
-    background-color: #2B2B2B;
+div[data-baseweb="select"] span,
+div[data-baseweb="select"] div {
+    color: #FFFFFF !important;
+    background-color: #2B2B2B !important;
+}
+
+/* ── Dropdown open popup list ── */
+ul[data-baseweb="menu"] {
+    background-color: #2B2B2B !important;
+}
+
+li[role="option"] {
+    background-color: #2B2B2B !important;
     color: #FFFFFF !important;
 }
 
-[data-testid="stSelectbox"] li {
-    color: #FFFFFF !important;
-}
-
-[data-testid="stSelectbox"] li:hover {
+li[role="option"]:hover {
     background-color: #E50914 !important;
     color: #FFFFFF !important;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
