@@ -5,7 +5,7 @@ import plotly.express as px
 import os
 
 if not os.path.exists("dev.duckdb"):
-    subprocess.run(["dbt", "run"], cwd="power_plants_analytics")
+    subprocess.run(["dbt", "run"], cwd="movielens_analytics")
 
 # -------------------------
 # PAGE CONFIG
@@ -542,3 +542,4 @@ st.markdown("""
     MovieLens Analytics Dashboard &nbsp;|&nbsp; Powered by Streamlit & DuckDB
 </div>
 """, unsafe_allow_html=True)        
+
